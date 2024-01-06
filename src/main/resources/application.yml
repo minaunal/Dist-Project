@@ -1,0 +1,30 @@
+server:
+  port: 7000
+
+spring:
+  main:
+    allow-circular-references: true
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    username: postgres
+    hikari:
+      poolName: HikariPoolZZZ
+      connectionTimeout: '20000'
+      maximumPoolSize: '5'
+    url: jdbc:postgresql://localhost:5432/postgres
+    password: 12345
+  jpa:
+    properties:
+      hibernate:
+        temp:
+          use_jdbc_metadata_defaults: 'false'
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+    show-sql: 'true'
+logging:
+  level:
+    org.springframework.web: DEBUG
+security:
+  jwt:
+    secret: "njvglqmqtvykpthiedmtdhkllklzqallgrmqpecazhoghnqxchmrzdbsyzabesxq"
