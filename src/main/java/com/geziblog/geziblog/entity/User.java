@@ -38,9 +38,10 @@ public class User implements UserDetails {
     private List<Post> posts = new ArrayList<>();
     @OneToMany(mappedBy = "follower")
     private Set<Following> following = new HashSet<>();
-
     @OneToMany(mappedBy = "following")
     private Set<Following> followers = new HashSet<>();
+
+
 
 
 public User(){}
