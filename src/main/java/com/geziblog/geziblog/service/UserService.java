@@ -4,13 +4,23 @@ import com.geziblog.geziblog.controller.repository.FollowRepository;
 import com.geziblog.geziblog.controller.repository.PostRepository;
 import com.geziblog.geziblog.controller.repository.UserRepository;
 import com.geziblog.geziblog.entity.Following;
+import com.geziblog.geziblog.entity.GooglePlacesResponse;
 import com.geziblog.geziblog.entity.Post;
 import com.geziblog.geziblog.entity.User;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -25,6 +35,29 @@ public class UserService {
     private FollowRepository followRepository;
     @Autowired
     private JwtService jwtService;
+
+    @Value("${google.places.api-key}") // application.properties'den API anahtarını çek
+    private String apiKey;
+    @Autowired
+    private RestTemplate restTemplate;
+
+    public List<String> getTopTouristPlaces(String location) {
+        String url = String.format("https://maps.googleapis.com/maps/api/place/textsearch/json?query=todo+in+%s&key=%s",
+                location, apiKey);
+
+        // API yanıtını alıyoruz
+        GooglePlacesResponse response = restTemplate.getForObject(url, GooglePlacesResponse.class);
+
+        // Yanıtı kontrol edip ilk 3 turistik yeri döndürüyoruz
+        if (response != null && response.getResults() != null) {
+            return response.getResults().stream()  // Stream API kullanarak listeyi işliyoruz
+                    .limit(3)  // İlk 3 sonucu al
+                    .map(place -> place.getName())  // Her bir GooglePlace nesnesi için ismi al
+                    .collect(Collectors.toList());
+        }
+
+        return List.of("Sonuç bulunamadı.");
+    }
 
     public User findUserbyId(int id){
         return userRepository.findById(id);

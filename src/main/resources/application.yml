@@ -28,3 +28,6 @@ logging:
 security:
   jwt:
     secret: "njvglqmqtvykpthiedmtdhkllklzqallgrmqpecazhoghnqxchmrzdbsyzabesxq"
+google:
+  places:
+    api-key: "AIzaSyD5sFLQgbwyoe3HmyekiuU3nWNCoJghmI0"

@@ -36,9 +36,6 @@ public class UserController {
     @Autowired
     private JwtService jwtService;
 
-
-
-
     @PostMapping("/login/save")
     public void save(@ModelAttribute("userDto") UserDTO userDto, Model model) {
         authenticationService.save(userDto);
@@ -61,7 +58,7 @@ public class UserController {
     public List<Anasayfa> findPost(@RequestHeader("Authorization") String bearerToken, @ModelAttribute("findpost") findDTO findDTO, Model model){
         String token = bearerToken.substring(7);
         String username = jwtService.findUsername(token);
-        List<Post>posts= userService.findPosts(findDTO.getUsername(),findDTO.getUsername());
+        List<Post>posts= userService.findPosts(findDTO.getUsername(),findDTO.getUsername()); //baslik ve metin finddto kullandigi icin getusername olarak kullanılmıs
         List<Anasayfa> anasayfa=new ArrayList<>();
         for (int i = 0; i < posts.size(); i++) {
             Post post = posts.get(i);
@@ -77,6 +74,7 @@ return anasayfa;
     public void updatePassword(@ModelAttribute("userreq") UserRequest userRequest,Model model) {
         authenticationService.updatePassword(userRequest);
     }
+
     @PostMapping("/login/follow")
     public List<Anasayfa> followUser(@RequestHeader("Authorization") String authorizationHeader, @RequestBody String username, Model model){
         String token = authorizationHeader.substring(7);
@@ -101,6 +99,11 @@ return anasayfa;
             String username = jwtService.findUsername(token);
             userService.savePostToUser(post, username);
     }
+    @PostMapping("/tourist-places")
+    public List<String> getTouristPlaces(@RequestHeader("Authorization") String authorizationHeader,@RequestParam String location) {
+        return userService.getTopTouristPlaces(location);
+    }
+
     @PostMapping("/login/anasayfa")
     public List<Anasayfa> homePage(@RequestHeader("Authorization") String authorizationHeader){
         String token = authorizationHeader.substring(7);
