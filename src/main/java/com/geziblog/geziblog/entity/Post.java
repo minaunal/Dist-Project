@@ -23,7 +23,7 @@ public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JsonIgnore
     @JoinColumn(name = "user_id")
     public User user;
@@ -31,6 +31,9 @@ public class Post {
     private String metin;
     @Column(name = "baslik")
     private String baslik;
+    @OneToOne
+    @JoinColumn(name = "place_id")  // Her Post yalnızca bir Place'e ait olacak
+    private Place place;
 
 
     public Post(){}
@@ -41,6 +44,13 @@ public class Post {
 
     public void setUser(User user) {
         this.user = user;
+    }
+    public Place getPlace() {
+        return place;
+    }
+
+    public void setPlace(Place place) {
+        this.place = place;
     }
 }
 

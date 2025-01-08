@@ -13,5 +13,6 @@ public class Anasayfa {
     String username;
     String baslik;
     String metin;
+    String rota;
 
 }

@@ -9,12 +9,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class findDTO {
-    private String keyword;
-    private boolean followed=false;
-
-    public void setFollowed(boolean followed) {
-        this.followed = followed;
-    }
+public class postDTO {
+    String baslik;
+    String metin;
+    String placeNames;
 }
 

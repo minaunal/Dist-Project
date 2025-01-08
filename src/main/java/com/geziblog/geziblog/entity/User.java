@@ -40,6 +40,8 @@ public class User implements UserDetails {
     private Set<Following> following = new HashSet<>();
     @OneToMany(mappedBy = "following")
     private Set<Following> followers = new HashSet<>();
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)  // Bir User'ın birçok Place'i olabilir
+    private List<Place> places;
 
 
 

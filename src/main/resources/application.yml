@@ -30,4 +30,6 @@ security:
     secret: "njvglqmqtvykpthiedmtdhkllklzqallgrmqpecazhoghnqxchmrzdbsyzabesxq"
 google:
   places:
-    api-key: "AIzaSyD5sFLQgbwyoe3HmyekiuU3nWNCoJghmI0"
+    api-key: "AIzaSyCacHbx6-aTCdb06KU4RHx4YP-nP6mhZi8"
+rapid:
+  key: "05a59844f6mshd38f64b2b2fea33p153cf8jsn9bbe6d712bd8"
