@@ -36,6 +36,10 @@ public class UserController {
     public UserResponse auth(@RequestBody UserRequest userRequest) {
        return authenticationService.auth(userRequest);
     }
+    @GetMapping("/deneme")
+    public String deneme() {
+        return "basarili";
+    }
     @GetMapping("/signout")
     public void logout(@RequestHeader("Authorization") String authorizationHeader){
         SecurityContext securityContext = SecurityContextHolder.getContext();
@@ -133,17 +137,11 @@ public class UserController {
     @GetMapping("/places")
     public ResponseEntity<List<String>> getSuggestions(@RequestHeader("Authorization") String bearerToken,@RequestParam String input,@RequestParam String arrivalDate, @RequestParam String departureDate) {
         try {
-            // Authorization başlığından token'ı çıkar
             String token = bearerToken.substring(7);
             String username = jwtService.findUsername(token);
-
-            // UserService metodu çağrılır
             List<String> topPlaceIds = userService.getTopRatedPlaces(input, arrivalDate, departureDate);
-
-            // Başarılı yanıt döndür
             return ResponseEntity.ok(topPlaceIds);
         } catch (Exception e) {
-            // Hata durumunda HTTP 500 döndür
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(Collections.singletonList("Hata: " + e.getMessage()));
         }

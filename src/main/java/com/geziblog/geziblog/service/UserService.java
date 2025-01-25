@@ -112,7 +112,7 @@ public class UserService {
 
     //MAPS İŞLEMLERİ
 
-    public List<String> getTopRatedPlaces(String input, String arrivalDate, String departureDate) {
+    public List<String> getTopRatedPlaces(String input, String arrivalDate, String departureDate) git a{
         try {
             names=new ArrayList<>();
             placenames="";
@@ -145,7 +145,7 @@ public class UserService {
             ResponseEntity<Map> cafeResponse = restTemplate.getForEntity(cafesUrl, Map.class);
             List<Map<String, Object>> cafeResults = (List<Map<String, Object>>) cafeResponse.getBody().get("results");
 
-            // Tourist Attraction sonuçlarını sıralama
+            // Tourist Attraction
             touristResults.stream()
                     .sorted((place1, place2) -> Integer.compare(
                             (int) place2.getOrDefault("user_ratings_total", 0),
@@ -154,12 +154,12 @@ public class UserService {
                     .limit(3)
                     .forEach(place -> names.add((String) place.get("name")));
 
-            // Cafe sonuçlarını filtreleme
+            // Cafe
             cafeResults.stream()
                     .max(Comparator.comparingInt(cafe -> (int) cafe.getOrDefault("user_ratings_total", 0)))
                     .ifPresent(cafe -> names.add((String) cafe.get("name")));
 
-            // Otel API çağrısı
+            // Otel
             String hotelSearchUrl = "https://booking-com15.p.rapidapi.com/api/v1/hotels/searchHotelsByCoordinates" +
                     "?latitude=" + lat + "&longitude=" + lng + "&arrival_date=" + arrivalDate + "&departure_date=" + departureDate +
                     "&radius=10&units=metric&languagecode=en-us&currency_code=TRY";
@@ -182,7 +182,6 @@ public class UserService {
             if (topHotel != null) {
                 String hotelName = (String) topHotel.get("hotel_name");
 
-                // Extracting the "amount_rounded" field
                 String amountRounded = (String) ((Map<String, Object>) ((Map<String, Object>) topHotel.get("composite_price_breakdown")).get("net_amount")).get("amount_rounded");
                 String hotelPrice = amountRounded.replace("TL", "").trim();  // Remove "TL" and any extra spaces
 
@@ -190,7 +189,7 @@ public class UserService {
 
             }
             placenames = String.join(", ", names);
-            // Sonuçları döndürme
+            // Sonuçlar
             return names;
         } catch (Exception e) {
             throw new RuntimeException("Yerler alınırken hata oluştu: " + e.getMessage());
