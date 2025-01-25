@@ -112,7 +112,7 @@ public class UserService {
 
     //MAPS İŞLEMLERİ
 
-    public List<String> getTopRatedPlaces(String input, String arrivalDate, String departureDate) git a{
+    public List<String> getTopRatedPlaces(String input, String arrivalDate, String departureDate) {
         try {
             names=new ArrayList<>();
             placenames="";
